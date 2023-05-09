@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct No {
+  char palavra[100];
+  struct No* next;
+} No;
+
+// Função para percorrer e exibir os elementos da lista
+void Lista(No* lista) {
+  printf ("----------------------------------------");
+  printf ("\nElementos da lista:\n");
+  while (lista != NULL) {
+    printf ("| %s |", lista->palavra);
+    lista = lista -> next;
+  }
+    printf ("\n");
+}
+
+int main() {
+  int n;  // Quantidade de elementos na lista
+  char palavra[100];  // Variável temporária para ler cada palavra
+  No* comeco = NULL;  // Começo da lista
+  No* fim = NULL;  // Final da lista
+
+  printf ("Quantos itens deseja inserir na lista? ");
+  scanf ("%d", &n);
+
+  printf ("\nInsira os itens da lista:\n");
+  for (int i = 0; i < n; i++) {
+    scanf ("%s", palavra);
+
+    // Criando um novo nó
+    No* novoNo = (No*)malloc(sizeof(No));
+    strcpy(novoNo -> palavra, palavra);
+    novoNo -> next = NULL;
+
+    if (comeco == NULL) {
+      // Se a lista estiver vazia, o novo nó será o começo e o final da lista
+      comeco = novoNo;
+      fim = novoNo;
+    } else {
+      // Caso contrário, adiciona o novo nó ao final da lista
+      fim -> next = novoNo;
+      fim = novoNo;
+    }
+  }
+
+  // Chamando a função para percorrer e exibir os elementos da lista
+  Lista(comeco);
+
+  // Liberando a memória alocada pelos nós
+  No* current = comeco;
+  while (current != NULL) {
+    No* next = current->next;
+    free(current);
+    current = next;
+  }
+
+  return 0;
+}
